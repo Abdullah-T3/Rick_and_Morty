@@ -59,10 +59,10 @@ class Info {
 class Result {
     int? id;
     String? name;
-    Status? status;
-    Species? species;
+    String? status;
+    String? species;
     String? type;
-    Gender? gender;
+    String? gender;
     Location? origin;
     Location? location;
     String? image;
@@ -88,10 +88,10 @@ class Result {
     factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"],
         name: json["name"],
-        status: statusValues.map[json["status"]]!,
-        species: speciesValues.map[json["species"]]!,
+        status: json["status"]!,
+        species: json["species"]!,
         type: json["type"],
-        gender: genderValues.map[json["gender"]]!,
+        gender: json["gender"]!,
         origin: json["origin"] == null ? null : Location.fromJson(json["origin"]),
         location: json["location"] == null ? null : Location.fromJson(json["location"]),
         image: json["image"],
@@ -103,10 +103,10 @@ class Result {
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "status": statusValues.reverse[status],
-        "species": speciesValues.reverse[species],
+        "status":status,
+        "species": species,
         "type": type,
-        "gender": genderValues.reverse[gender],
+        "gender": gender,
         "origin": origin?.toJson(),
         "location": location?.toJson(),
         "image": image,
@@ -177,7 +177,7 @@ class EnumValues<T> {
     EnumValues(this.map);
 
     Map<T, String> get reverse {
-            reverseMap = map.map((k, v) => MapEntry(v, k));
-            return reverseMap;
+        reverseMap = map.map((k, v) => MapEntry(v, k));
+        return reverseMap;
     }
 }

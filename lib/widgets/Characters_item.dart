@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rick_morty/Constants/Colors.dart';
 import 'package:rick_morty/data/Models/characters.dart';
 
+import '../Constants/strings.dart';
+
 class CharactersItem extends StatelessWidget {
   final Result result;
   const CharactersItem({
@@ -26,35 +28,43 @@ class CharactersItem extends StatelessWidget {
           ),
         ],
       ),
-      child: GridTile(
-        child: Container(
-          color: MyColors.myGray,
-          child: result.image == null
-              ? Image.asset("assets/images/error.gif")
-              : FadeInImage.assetNetwork(
-                  placeholder: "assets/images/loading.gif",
-                  image: result.image!,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
-                ),
-        ),
-        footer: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          color: Colors.black54,
-          alignment: Alignment.bottomCenter,
-          child: Text(
-            result.name!,
-            style: TextStyle(
-              height: 1.3,
-              fontSize: 16,
-              color: MyColors.myWhite,
-              fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, CharctarDetailsPage, arguments: result);
+        },
+        child: GridTile(
+          child: Hero(
+            tag: result.id!,
+            child: Container(
+              color: MyColors.myGray,
+              child: result.image == null
+                  ? Image.asset("assets/images/error.gif")
+                  : FadeInImage.assetNetwork(
+                      placeholder: "assets/images/loading.gif",
+                      image: result.image!,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
             ),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            textAlign: TextAlign.center,
+          ),
+          footer: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            color: Colors.black54,
+            alignment: Alignment.bottomCenter,
+            child: Text(
+              result.name!,
+              style: TextStyle(
+                height: 1.3,
+                fontSize: 16,
+                color: MyColors.myWhite,
+                fontWeight: FontWeight.bold,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ),
