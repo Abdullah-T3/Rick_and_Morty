@@ -13,7 +13,7 @@ Widget CharacterInfo( String title,  value) {
           text: title,
           style: TextStyle(
             color: MyColors.myWhite,
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),

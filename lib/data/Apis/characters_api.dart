@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
-import 'package:rick_morty/Constants/strings.dart';
-import 'package:rick_morty/data/Models/characters.dart';
+import '../../Constants/strings.dart';
+import '../Models/characters.dart';
 
 
 class CharactersApi {

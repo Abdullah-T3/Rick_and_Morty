@@ -1,5 +1,5 @@
-import 'package:rick_morty/data/Apis/characters_api.dart';
-import 'package:rick_morty/data/Models/characters.dart';
+import '../Apis/characters_api.dart';
+import '../Models/characters.dart';
 
 class CharactersRepo {
   CharactersApi  charactersApi ;

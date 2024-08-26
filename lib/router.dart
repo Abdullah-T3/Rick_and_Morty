@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_morty/Constants/strings.dart';
-import 'package:rick_morty/Logic/cubit/charcters_cubit.dart';
-import 'package:rick_morty/data/Apis/characters_api.dart';
-import 'package:rick_morty/data/repo/Characters_repo.dart';
-import 'package:rick_morty/presntation/Screens/Charctar_Details_Screan.dart';
-import 'package:rick_morty/presntation/Screens/home_Screan.dart';
+import 'Constants/strings.dart';
+import 'Logic/cubit/charcters_cubit.dart';
+import 'data/Apis/characters_api.dart';
+import 'data/repo/Characters_repo.dart';
+import 'presntation/Screens/Charctar_Details_Screan.dart';
+import 'presntation/Screens/home_Screan.dart';
 import 'data/Models/characters.dart';
 
 class AppRouter {

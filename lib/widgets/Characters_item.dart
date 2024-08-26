@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rick_morty/Constants/Colors.dart';
-import 'package:rick_morty/data/Models/characters.dart';
+import '../Constants/Colors.dart';
+import '../data/Models/characters.dart';
 
 import '../Constants/strings.dart';
 

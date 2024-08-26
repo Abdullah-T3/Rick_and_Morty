@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_morty/Constants/Colors.dart';
-import 'package:rick_morty/Logic/cubit/charcters_cubit.dart';
-import 'package:rick_morty/data/Models/characters.dart';
-import 'package:rick_morty/widgets/Characters_item.dart';
+import 'package:flutter_offline/flutter_offline.dart';
+import '../../Constants/Colors.dart';
+import '../../Logic/cubit/charcters_cubit.dart';
+import '../../data/Models/characters.dart';
+import '../../widgets/Characters_item.dart';
 
 class HomeScrean extends StatefulWidget {
   @override
@@ -33,6 +34,7 @@ class _HomeScreanState extends State<HomeScrean> {
       ),
     );
   }
+
   void addSearchedForItemToSearchedList(String searchedCharacter) {
     searchedForCharacters = allcharacters.where((character) {
       return character.name!.toLowerCase().startsWith(searchedCharacter);
@@ -41,6 +43,7 @@ class _HomeScreanState extends State<HomeScrean> {
       isSearching = true;
     });
   }
+
   List<Widget> buildSearchedActions() {
     if (isSearching) {
       return [
@@ -48,7 +51,6 @@ class _HomeScreanState extends State<HomeScrean> {
             onPressed: () {
               clearSearch();
               Navigator.pop(context);
-
             },
             icon: Icon(
               Icons.clear_rounded,
@@ -66,26 +68,33 @@ class _HomeScreanState extends State<HomeScrean> {
       ];
     }
   }
-  void  startSearch() {
-    ModalRoute.of(context)!.addLocalHistoryEntry(LocalHistoryEntry(onRemove: stopSearch));
+
+  void startSearch() {
+    ModalRoute.of(context)!
+        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: stopSearch));
     setState(() {
       isSearching = true;
     });
   }
+
   void stopSearch() {
     setState(() {
       clearSearch();
       isSearching = false;
-
     });
   }
+
   void clearSearch() {
     searchingTextController.clear();
   }
+
   Widget buildappBarTitle() {
     return Text(
       "Rick and Morty",
-      style: TextStyle(color: MyColors.myGray),
+      style: TextStyle(
+        color: MyColors.myGray,
+      ),
+      textAlign: TextAlign.start,
     );
   }
 
@@ -135,13 +144,41 @@ class _HomeScreanState extends State<HomeScrean> {
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
-      itemCount: searchingTextController.text.isEmpty? allcharacters!.length:searchedForCharacters.length,
+      itemCount: searchingTextController.text.isEmpty
+          ? allcharacters!.length
+          : searchedForCharacters.length,
       itemBuilder: (context, index) {
         return CharactersItem(
-          result: searchingTextController.text.isEmpty? allcharacters![index]:searchedForCharacters[index],
+          result: searchingTextController.text.isEmpty
+              ? allcharacters![index]
+              : searchedForCharacters[index],
         );
       },
     );
+  }
+
+  Widget buildNoInternetWidget() {
+    return Center(
+        child: Container(
+      color: Colors.white,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset("assets/images/no_internt.png"),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            "No Internet",
+            style: TextStyle(
+                color: MyColors.myGray,
+                fontSize: 22,
+                fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    ));
   }
 
   @override
@@ -149,11 +186,32 @@ class _HomeScreanState extends State<HomeScrean> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.myteal,
-        leading: isSearching ? BackButton(color: MyColors.myGray,) : Container(),
+        leading: isSearching
+            ? BackButton(
+                color: MyColors.myGray,
+              )
+            : Container(),
         title: isSearching ? BuildSearchField() : buildappBarTitle(),
-        actions:buildSearchedActions(),
+        actions: buildSearchedActions(),
       ),
-      body: buildBloc(),
+      body: OfflineBuilder(
+        connectivityBuilder: (
+          BuildContext context,
+          List<ConnectivityResult> connectivity,
+          Widget child,
+        ) {
+          final bool connected =
+              !connectivity.contains(ConnectivityResult.none);
+          if (connected) {
+            return buildBloc();
+          } else {
+            return buildNoInternetWidget();
+          }
+        },
+        child: Center(
+          child: showloading(),
+        ),
+      ),
     );
   }
 }

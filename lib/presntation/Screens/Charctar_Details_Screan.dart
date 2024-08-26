@@ -1,15 +1,15 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:rick_morty/Constants/Colors.dart';
+import '../../Constants/Colors.dart';
 import '../../data/Models/characters.dart';
 import '../../widgets/CharacterInfo.dart';
 
 class CharctarDetailsScrean extends StatelessWidget {
   final Result result;
-  const CharctarDetailsScrean({Key? key, required this.result})
-      : super(key: key);
+  const CharctarDetailsScrean({super.key, required this.result});
   Widget buildSliverAppBar() {
     return SliverAppBar(
-      expandedHeight: 400,
+      expandedHeight: 700,
       pinned: true,
       stretch: true,
       backgroundColor: MyColors.myGray,
@@ -17,7 +17,7 @@ class CharctarDetailsScrean extends StatelessWidget {
         centerTitle: true,
         title: Text(
           result.name!,
-          style: TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.white),
         ),
         background: Hero(
           tag: result.id!,
@@ -29,15 +29,15 @@ class CharctarDetailsScrean extends StatelessWidget {
       ),
     );
   }
+
   Widget buildDivider(double endIndent) {
     return Divider(
       height: 20,
       color: MyColors.myteal,
       endIndent: endIndent,
-       thickness: 3,
+      thickness: 3,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +50,42 @@ class CharctarDetailsScrean extends StatelessWidget {
             delegate: SliverChildListDelegate(
               [
                 Container(
-                  margin: EdgeInsets.fromLTRB(14, 14, 14, 0),
-                  padding: EdgeInsets.all(5),
+                  margin: const EdgeInsets.fromLTRB(14, 14, 14, 0),
+                  padding: const EdgeInsets.all(5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CharacterInfo( "status : ", result.status!),
-                      buildDivider(280),
-                      CharacterInfo( "species : ", result.gender!),
-                      buildDivider(280),
-
+                      CharacterInfo("Status : ", result.status!),
+                      buildDivider(MediaQuery.of(context).size.width * 0.75),
+                      CharacterInfo("Species : ", result.species!),
+                      buildDivider(MediaQuery.of(context).size.width * 0.72),
+                      CharacterInfo("Gender : ", result.gender!),
+                      buildDivider(MediaQuery.of(context).size.width * 0.74),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      DefaultTextStyle(
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          color: MyColors.myteal,
+                        ),
+                        child: Center(
+                          child: AnimatedTextKit(
+                            animatedTexts: [
+                              WavyAnimatedText('Created by T3MIA'),
+                              WavyAnimatedText('Look at the waves'),
+                            ],
+                            isRepeatingAnimation: true,
+                            onTap: () {
+                              print("Tap Event");
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 600,
+                      )
                     ],
                   ),
                 )
